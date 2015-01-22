@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+# require('shelljs/global');
+# var Promise = require("bluebird");
+# var fs = require('fs');
+# var console = require('logge');
+#
+# var jsonreader = require('../src/jsonreader');
+#
+#
+# console.debug = false;
+# console.set_log_request(false);

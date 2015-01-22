@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "preferGlobal": "true",
+  "bin": {
+    "apis": "bin/api-server"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/i5ting/api-server.git"
@@ -15,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/i5ting/api-server/issues"
   },
-  "homepage": "https://github.com/i5ting/api-server"
+  "homepage": "https://github.com/i5ting/api-server",
+  "dependencies": {
+    "gulp": "^3.8.10"
+  }
 }
