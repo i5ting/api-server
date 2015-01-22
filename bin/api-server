@@ -97,11 +97,11 @@ function write_an_api(jsonObj) {
 		var resName = jsonObj.file_name.replace(/.req/, '.js');
 		var resPath = 'server/routes/' + resName;
 
-		fs.writeFileSync(resPath, JSON.stringify(jsonObj), 'utf-8', function(err){
-		    if(err){
-		        return log(err);
-		    }
-		});
+		// fs.writeFileSync(resPath, JSON.stringify(jsonObj), 'utf-8', function(err){
+		//     if(err){
+		//         return log(err);
+		//     }
+		// });
 		// register_in_route_js(jsonObj);
 		
 		console.log(jsonObj)

@@ -41,30 +41,18 @@ function res_to_api(jsonObj, api_md_file ,cb_succ, cb_fail) {
 	var url = '/' + _url;
 		
 		
-	source = require('./get_npm_installed_path')() + '/src/tpl/route.js'
+	jsonObj.absolute_url = url;
+	console.dir(jsonObj.type);
 	
-	dest = server_routes_dir + '/route.generate.js'
+	source = require('./get_npm_installed_path')() + '/src/tpl/get.js'
+	
+	dest = server_routes_dir + '/' + file_name + '.js'
 	console.dir(source)
-	
-	var mappings = [];
-	
-	url_mappings.forEach(function(obj){
-		//
-		var _url = obj.url.replace(/http__\/\//,'')
-		
-		 console.dir(_url)
-			var aa = _url.split('/');
-			
-			aa.shift();
-			_url = aa.join('/')
-			obj.url = '/' + _url;
-	})
+ 
 
-	tpl.tpl_apply(source, {
-	  url_mappings:url_mappings
-	}, dest);
+	tpl.tpl_apply(source, jsonObj, dest);
 	
-	return Promise.resolve(result);
+	return Promise.resolve(jsonObj);
 }
 
 module.exports = res_to_api
