@@ -6,6 +6,7 @@ var request = require('request');
 // var console = require('logge');
 
 var jsonreader = require('../src/jsonreader');
+var register_in_route = require('../src/register_in_route');
 var res_to_api = require('../src/res_to_api');
 var copy_server_tpl_fils = require('../src/copy');
 //console.debug = false;
@@ -45,7 +46,6 @@ function parse_request(){
 		console.log('desc_path = ' + desc_path)
 		copy_server_tpl_fils(desc_path);
 		log('server_routes_dir folder is empty. you need put some.req in server/routes folder');
-		return;
 	};
 		
 	_parse_with_request_dir(request_dir);	
@@ -94,12 +94,13 @@ function write_an_api(jsonObj) {
 		var resName = jsonObj.file_name.replace(/.req/, '.js');
 		var resPath = 'server/routes/' + resName;
 
-		// fs.writeFileSync(resPath, JSON.stringify(jsonObj), 'utf-8', function(err){
-	// 	    if(err){
-	// 	        return log(err);
-	// 	    }
-	// 	});
-	
+		fs.writeFileSync(resPath, JSON.stringify(jsonObj), 'utf-8', function(err){
+		    if(err){
+		        return log(err);
+		    }
+		});
+		register_in_route_js(jsonObj);
+		
 		console.log(jsonObj)
 		var api_md_file = pwd_dir + '/' + GENERATE_MARKDOWN_FILE_NAME;
 		return res_to_api(jsonObj ,api_md_file ,function(md){
@@ -118,8 +119,14 @@ function write_an_api(jsonObj) {
 	}
 }
 
-function start_server(){
+function register_in_route_js(jsonObj){
+	console.log('register_in_route_js = '+jsonObj)
+	register_in_route(jsonObj);
+}
 
+function start_server(){
+	console.log('start_server')
+	var child = exec('cd server && npm start', {async:false});
 }
 
 
