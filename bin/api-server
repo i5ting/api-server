@@ -128,33 +128,13 @@ function write_an_api(jsonObj) {
 	}
 }
 
-function _get_npm_installed_path(){
-	var path_arr, npm_installed_path;
-	// npm_installed_path
-	path_arr =  __dirname.split('/');
-	path_arr.pop();
 
-	npm_installed_path = path_arr.join("/");
-	return npm_installed_path;
-}
-
+/**
+ * 在单个文件都处理完成之后，生成route.generate.js
+ */ 
 function register_in_route_js(){
- 
 	source = _get_npm_installed_path() + '/src/tpl/route.js'
 	dest = server_dir + '/route.generate.js'
-	//
-	// var Handlebars = require('handlebars');
-	// //
-	// // Handlebars.registerHelper('list', function(items, options) {
-	// //   var out = "<ul>";
-	// //
-	// //   for(var i=0, l=items.length; i<l; i++) {
-	// //     out = out + "<li>" + options.fn(items[i]) + "</li>";
-	// //   }
-	// //
-	// //   return out + "</ul>";
-	// // });
-	//
 	console.dir(source)
 	
 	var mappings = [];
@@ -210,4 +190,13 @@ function _parse_with_request_dir(path){
   });
 	
 	console.log(filelist)
+}
+
+// 获取npm安装路径
+function _get_npm_installed_path(){
+	var path_arr, npm_installed_path;
+	// npm_installed_path
+	path_arr =  __dirname.split('/');
+	path_arr.pop();
+	return path_arr.join("/");
 }
