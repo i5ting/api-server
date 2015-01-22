@@ -25,7 +25,8 @@ function parse_request(){
 	var request_dir = process.cwd() + REQUEST_FOLDER_NAME;
 	var api_md_file = process.cwd() + '/' + GENERATE_MARKDOWN_FILE_NAME;
 	var response_dir = process.cwd() + RESPONSE_FOLDER_NAME;
-	var server_routes_dir = process.cwd() + SERVER_FOLDER_NAME + '/routes'
+	var server_dir = process.cwd() + SERVER_FOLDER_NAME;
+	var server_routes_dir = process.cwd() + SERVER_FOLDER_NAME + '/routes';
 	// rm("-rf",response_dir+'/*.res');
 	log("request_dir = " + request_dir);
 	
@@ -37,7 +38,10 @@ function parse_request(){
 	
 	if (test('-d', server_routes_dir) == false) {
 		mkdir('-p', server_routes_dir);
-		copy_server_tpl_fils();
+		
+		var desc_path = server_dir + '/node_modules';
+		console.log('desc_path = ' + desc_path)
+		copy_server_tpl_fils(desc_path);
 		log('server_routes_dir folder is empty. you need put some.req in server/routes folder');
 		return;
 	};
