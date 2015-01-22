@@ -107,8 +107,8 @@ function write_an_api(jsonObj) {
 		console.log(jsonObj)
 		
 		url_mappings.push({
-			url:jsonObj.url,
-			file_name:jsonObj.file_name.replace(/.req/, '')
+			url				: jsonObj.url,
+			file_name	: jsonObj.file_name.replace(/.req/, '')
 		});
 		
 		var api_md_file = server_dir + '/' + GENERATE_MARKDOWN_FILE_NAME;
@@ -118,16 +118,12 @@ function write_an_api(jsonObj) {
 		},function(){
 			//fail
 			cb_fail();
-		});
-
-		var data = {};
-		return Promise.resolve(jsonObj, data);
+		}); 
 	}else{
 		log("writeHandler jsonObj nil");
 		return Promise.resolve(jsonObj, data);
 	}
 }
-
 
 /**
  * 在单个文件都处理完成之后，生成route.generate.js
@@ -158,8 +154,8 @@ function register_in_route_js(){
 
 function start_server(){
 	register_in_route_js();
-	console.log('start_server')
-	// var child = exec('cd server && npm start', {async:false});
+	console.log('start_server' + 'cd ' + server_dir + ' && npm start')
+	var child = exec('cd ' + server_dir + ' && npm start', {async:false});
 }
 
 

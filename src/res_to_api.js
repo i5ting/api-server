@@ -1,9 +1,23 @@
 var Promise = require("bluebird");
 var fs = Promise.promisifyAll(require("fs"));
 var shell = require('shelljs');
-var Handlebars = require('handlebars');
+var tpl = require('tpl_apply');
 
 var console = require('logge');
+
+REQUEST_FOLDER_NAME = "/request"
+RESPONSE_FOLDER_NAME = "/response"
+SERVER_FOLDER_NAME = "/server"
+GENERATE_MARKDOWN_FILE_NAME = "api.md"
+
+function log(t){
+	console.log(t);
+}
+var request_dir = process.cwd() + REQUEST_FOLDER_NAME;
+var api_md_file = process.cwd() + '/' + GENERATE_MARKDOWN_FILE_NAME;
+var response_dir = process.cwd() + RESPONSE_FOLDER_NAME;
+var server_dir = process.cwd() + SERVER_FOLDER_NAME;
+var server_routes_dir = process.cwd() + SERVER_FOLDER_NAME + '/routes';
 
 function decode_url(url){
 	url = url.replace(/__/g,':');
@@ -15,71 +29,42 @@ function get_url(jsonObj){
 	return decode_url(url);
 }
 
-function res_to_api(res_obj, api_md_file ,cb_succ, cb_fail) {
-	// res_obj.url = get_url(res_obj);
-	//
-	// var name     = res_obj.name;
-	// var url      = res_obj.url;
-	// var type     = res_obj.type;
-	// var params   = res_obj.params;
-	// var response = res_obj.response;
-	//
-	// console.log(res_obj);
-	//
-	// // 获取参数个数
-	// var paramsCount = 0;
-	// for(var obj in params) {
-	// 	paramsCount++;
-	// }
-	//
-	// // 设置参数介绍
-	// res_obj.params = '没有参数'
-	// if (paramsCount > 0) {
-	// 	res_obj.params = JSON.stringify(params, null, 4);
-	// };
-	//
-	// // 请求状态
-	// var success = response.status == true;
-	//
-	// // 状态
-	// res_obj.status =  success ? '请求成功' : '请求失败';
-	//
-	// // 请求标题
-	// res_obj.title   = success ? '响应体内容' : '错误信息';
-	// res_obj.content = success ? JSON.stringify(response.result, null, 4):
-	// 							JSON.stringify(response.err, null, 4);
-	//
-	// // 状态
-	// res_obj.status =  success ? '请求成功' : '请求失败';
-	//
-	// //描述
-	// if(res_obj.desc){
-	// 	res_obj.desc = "## 描述 \n" + res_obj.desc;
-	// }
-	//
-	// // 模板
-	// var path_arr =  __dirname.split('/');
-	// path_arr.pop();
-	// var tpl_path = path_arr.join("/") + '/vendor/res_to_api.tpl';
-	// var source = shell.cat(tpl_path);
-	// var template = Handlebars.compile(source);
-	//
-	// // 转换后信息
-	// var result = template(res_obj);
-	//
-	// cb_succ(result);
-	// createMarkdown(api_md_file ,result);
-	result ={}
-	return Promise.resolve(result);
-}
+function res_to_api(jsonObj, api_md_file ,cb_succ, cb_fail) {	
+	var file_name = jsonObj.file_name.replace(/.req/, '');
+	var _url = jsonObj.url.replace(/http__\/\//,'')
+	
+	console.dir(_url)
+	var aa = _url.split('/');
+		
+	aa.shift();
+	_url = aa.join('/')
+	var url = '/' + _url;
+		
+		
+	source = require('./get_npm_installed_path')() + '/src/tpl/route.js'
+	
+	dest = server_routes_dir + '/route.generate.js'
+	console.dir(source)
+	
+	var mappings = [];
+	
+	url_mappings.forEach(function(obj){
+		//
+		var _url = obj.url.replace(/http__\/\//,'')
+		
+		 console.dir(_url)
+			var aa = _url.split('/');
+			
+			aa.shift();
+			_url = aa.join('/')
+			obj.url = '/' + _url;
+	})
 
-function createMarkdown(api_md_file ,t){
-	console.log(t)
-	fs.appendFileSync(api_md_file, t, 'utf-8', function(err) {
-		if (err) {
-			return;
-		};
-	});
+	tpl.tpl_apply(source, {
+	  url_mappings:url_mappings
+	}, dest);
+	
+	return Promise.resolve(result);
 }
 
 module.exports = res_to_api
