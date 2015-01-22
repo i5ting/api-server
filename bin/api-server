@@ -6,13 +6,15 @@ var request = require('request');
 // var console = require('logge');
 
 var jsonreader = require('../src/jsonreader');
-
+var res_to_api = require('../src/res_to_api');
+var copy_server_tpl_fils = require('../src/copy');
 //console.debug = false;
 //console.set_log_request(false);
 var filelist = [];
 
 REQUEST_FOLDER_NAME = "/request"
 RESPONSE_FOLDER_NAME = "/response"
+SERVER_FOLDER_NAME = "/server"
 GENERATE_MARKDOWN_FILE_NAME = "api.md"
 
 function log(t){
@@ -23,7 +25,7 @@ function parse_request(){
 	var request_dir = process.cwd() + REQUEST_FOLDER_NAME;
 	var api_md_file = process.cwd() + '/' + GENERATE_MARKDOWN_FILE_NAME;
 	var response_dir = process.cwd() + RESPONSE_FOLDER_NAME;
-	
+	var server_routes_dir = process.cwd() + SERVER_FOLDER_NAME + '/routes'
 	// rm("-rf",response_dir+'/*.res');
 	log("request_dir = " + request_dir);
 	
@@ -33,6 +35,13 @@ function parse_request(){
 		return;
 	};
 	
+	if (test('-d', server_routes_dir) == false) {
+		mkdir('-p', server_routes_dir);
+		copy_server_tpl_fils();
+		log('server_routes_dir folder is empty. you need put some.req in server/routes folder');
+		return;
+	};
+		
 	_parse_with_request_dir(request_dir);	
 	console.log(filelist);
 	
@@ -76,15 +85,26 @@ function request_processing_with_file(req_file){
 function write_an_api(jsonObj) {
 	if(jsonObj){
 		log("writeHandler jsonObj exist,准备写入.res文件");
-		var resName = jsonObj.file_name.replace(/.req/, '.res');
-		var resPath = 'response/' + resName;
+		var resName = jsonObj.file_name.replace(/.req/, '.js');
+		var resPath = 'server/routes/' + resName;
 
-		fs.writeFileSync(resPath, JSON.stringify(jsonObj), 'utf-8', function(err){
-		    if(err){
-		        return log(err);
-		    }
-		});	
+		// fs.writeFileSync(resPath, JSON.stringify(jsonObj), 'utf-8', function(err){
+	// 	    if(err){
+	// 	        return log(err);
+	// 	    }
+	// 	});
+	
+		console.log(jsonObj)
+		var api_md_file = pwd_dir + '/' + GENERATE_MARKDOWN_FILE_NAME;
+		return res_to_api(jsonObj ,api_md_file ,function(md){
+		
+			//succ
+		},function(){
+			//fail
+			cb_fail();
+		});
 
+		var data = {};
 		return Promise.resolve(jsonObj, data);
 	}else{
 		log("writeHandler jsonObj nil");
