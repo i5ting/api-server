@@ -37,3 +37,5 @@ play/preview/*
 vendor/route.js
 
 .DS_Store
+
+play/server

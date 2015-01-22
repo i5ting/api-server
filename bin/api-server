@@ -36,10 +36,12 @@ function parse_request(){
 		return;
 	};
 	
+	rm('-Rf',server_dir);
+	
 	if (test('-d', server_routes_dir) == false) {
 		mkdir('-p', server_routes_dir);
 		
-		var desc_path = server_dir + '/node_modules';
+		var desc_path = server_dir + '/';
 		console.log('desc_path = ' + desc_path)
 		copy_server_tpl_fils(desc_path);
 		log('server_routes_dir folder is empty. you need put some.req in server/routes folder');

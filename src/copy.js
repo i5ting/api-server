@@ -27,11 +27,13 @@ function main(desc_path){
 	
 	// vendor copy
 	var source_path_vendor = _get_vendor_path();
+	console.log('source_path_vendor= ' + source_path_vendor);
+	console.log('desc_path= ' + desc_path);
 	_cp(source_path_vendor, desc_path);
 }
 
 function cp_bin(){
-	var source_path = _get_path_with('/.bin/*');
+	var source_path = _get_npm_path_with('/.bin/*');
 	desc_path = desc_path + '/.bin/'
 	mkdir('-p',desc_path);
 	cp('-Rf', source_path, desc_path);
@@ -42,7 +44,7 @@ function _get_npm_path_with(folder_name){
 }
 
 function _get_vendor_path(){
-	return npm_installed_path + '/vendor';
+	return npm_installed_path + '/vendor/*';
 }
 
 function _cp(source_path,desc_path){
