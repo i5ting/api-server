@@ -7,8 +7,8 @@
         "filename": "da_qin_huang_ling_.mobi"
     },
     "file_name": "upload.req",
-    "file_path": "/Users/sang/workspace/github/api-test/play/request/upload.req",
-    "pwd": "/Users/sang/workspace/github/api-test/play",
+    "file_path": "/Users/sang/workspace/github/api-server/play/request/upload.req",
+    "pwd": "/Users/sang/workspace/github/api-server/play",
     "response": {
         "result": null,
         "err": {

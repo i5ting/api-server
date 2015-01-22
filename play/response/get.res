@@ -5,8 +5,8 @@
     "params": {},
     "desc": " - aaaa\n - bbb\n",
     "file_name": "get.req",
-    "file_path": "/Users/sang/workspace/github/api-test/play/request/get.req",
-    "pwd": "/Users/sang/workspace/github/api-test/play",
+    "file_path": "/Users/sang/workspace/github/api-server/play/request/get.req",
+    "pwd": "/Users/sang/workspace/github/api-server/play",
     "response": {
         "result": {
             "status": {

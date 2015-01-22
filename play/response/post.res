@@ -4,8 +4,8 @@
     "type": "post",
     "params": {},
     "file_name": "post.req",
-    "file_path": "/Users/sang/workspace/github/api-test/play/request/post.req",
-    "pwd": "/Users/sang/workspace/github/api-test/play",
+    "file_path": "/Users/sang/workspace/github/api-server/play/request/post.req",
+    "pwd": "/Users/sang/workspace/github/api-server/play",
     "response": {
         "result": {
             "status": {
