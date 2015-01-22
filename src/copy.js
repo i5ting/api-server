@@ -44,7 +44,7 @@ function _get_npm_path_with(folder_name){
 }
 
 function _get_vendor_path(){
-	return npm_installed_path + '/vendor/*';
+	return npm_installed_path + '/vendor/**/*';
 }
 
 function _cp(source_path,desc_path){
