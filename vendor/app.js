@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 
-require('./route')(app);
+require('./route.generate')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

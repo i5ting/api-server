@@ -3,6 +3,7 @@ require('shelljs/global');
 var Promise = require("bluebird");
 var fs = require('fs');
 var request = require('request');
+var tpl = require('tpl_apply');
 // var console = require('logge');
 
 var jsonreader = require('../src/jsonreader');
@@ -21,13 +22,14 @@ GENERATE_MARKDOWN_FILE_NAME = "api.md"
 function log(t){
 	console.log(t);
 }
+var request_dir = process.cwd() + REQUEST_FOLDER_NAME;
+var api_md_file = process.cwd() + '/' + GENERATE_MARKDOWN_FILE_NAME;
+var response_dir = process.cwd() + RESPONSE_FOLDER_NAME;
+var server_dir = process.cwd() + SERVER_FOLDER_NAME;
+var server_routes_dir = process.cwd() + SERVER_FOLDER_NAME + '/routes';
 
 function parse_request(){
-	var request_dir = process.cwd() + REQUEST_FOLDER_NAME;
-	var api_md_file = process.cwd() + '/' + GENERATE_MARKDOWN_FILE_NAME;
-	var response_dir = process.cwd() + RESPONSE_FOLDER_NAME;
-	var server_dir = process.cwd() + SERVER_FOLDER_NAME;
-	var server_routes_dir = process.cwd() + SERVER_FOLDER_NAME + '/routes';
+	
 	// rm("-rf",response_dir+'/*.res');
 	log("request_dir = " + request_dir);
 	
@@ -85,6 +87,7 @@ function request_processing_with_file(req_file){
 	});
 }
 
+var url_mappings = [];
 /**
  * 写入api数据
  */
@@ -99,10 +102,16 @@ function write_an_api(jsonObj) {
 		        return log(err);
 		    }
 		});
-		register_in_route_js(jsonObj);
+		// register_in_route_js(jsonObj);
 		
 		console.log(jsonObj)
-		var api_md_file = pwd_dir + '/' + GENERATE_MARKDOWN_FILE_NAME;
+		
+		url_mappings.push({
+			url:jsonObj.url,
+			file_name:jsonObj.file_name.replace(/.req/, '')
+		});
+		
+		var api_md_file = server_dir + '/' + GENERATE_MARKDOWN_FILE_NAME;
 		return res_to_api(jsonObj ,api_md_file ,function(md){
 		
 			//succ
@@ -119,14 +128,58 @@ function write_an_api(jsonObj) {
 	}
 }
 
-function register_in_route_js(jsonObj){
-	console.log('register_in_route_js = '+jsonObj)
-	register_in_route(jsonObj);
+function _get_npm_installed_path(){
+	var path_arr, npm_installed_path;
+	// npm_installed_path
+	path_arr =  __dirname.split('/');
+	path_arr.pop();
+
+	npm_installed_path = path_arr.join("/");
+	return npm_installed_path;
+}
+
+function register_in_route_js(){
+ 
+	source = _get_npm_installed_path() + '/src/tpl/route.js'
+	dest = server_dir + '/route.generate.js'
+	//
+	// var Handlebars = require('handlebars');
+	// //
+	// // Handlebars.registerHelper('list', function(items, options) {
+	// //   var out = "<ul>";
+	// //
+	// //   for(var i=0, l=items.length; i<l; i++) {
+	// //     out = out + "<li>" + options.fn(items[i]) + "</li>";
+	// //   }
+	// //
+	// //   return out + "</ul>";
+	// // });
+	//
+	console.dir(source)
+	
+	var mappings = [];
+	
+	url_mappings.forEach(function(obj){
+		//
+		var _url = obj.url.replace(/http__\/\//,'')
+		
+		 console.dir(_url)
+			var aa = _url.split('/');
+			
+			aa.shift();
+			_url = aa.join('/')
+			obj.url = '/' + _url;
+	})
+
+	tpl.tpl_apply(source, {
+	  url_mappings:url_mappings
+	}, dest);
 }
 
 function start_server(){
+	register_in_route_js();
 	console.log('start_server')
-	var child = exec('cd server && npm start', {async:false});
+	// var child = exec('cd server && npm start', {async:false});
 }
 
 
