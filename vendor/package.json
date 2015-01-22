@@ -1,9 +1,9 @@
 {
   "name": "demo",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "private": false,
   "scripts": {
-    "start": "node ./bin/www"
+		 "start": "supervisor ./bin/www"
   },
   "dependencies": {
     "express": "~4.9.0",

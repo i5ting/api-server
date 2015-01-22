@@ -32,3 +32,8 @@ node_modules
 
 play/file/*
 play/preview/*
+
+
+vendor/route.js
+
+.DS_Store

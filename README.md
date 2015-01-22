@@ -10,6 +10,7 @@
 
 	apis .
 	
+http://127.0.0.1:3333/
 ## 实现步骤
 
 1. 根据request生成server/routes.js
