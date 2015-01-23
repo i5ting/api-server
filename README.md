@@ -38,6 +38,13 @@ get
 }
 ```
 
+get/a=1&b=2.json
+get/a=1.json
+get/a1=1.json
+
+post/a=1&b=2.json
+
+
 post
 
 ```
