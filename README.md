@@ -77,4 +77,8 @@ curl a=1&b=2  http://127.0.0.1:3333/appfuse_emm_backend/v1/appversions.json
 
 ## TODOs
 
+- [x] Get is ok
+- [ ] Post
+- [ ] Upload
+- [ ] node_modules
 - [ ] 生成测试的命令
