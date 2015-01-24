@@ -1,26 +1,26 @@
 {
   "name": "api-server",
-  "version": "1.0.0",
+  "version": "1.0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "npm test && cd play/server && npm start",
-		"startvendor": "cd vendor && npm start",
+    "startvendor": "cd vendor && npm start",
     "clean": "sudo rm -rf vendor/node_modules",
     "copy": "cd vendor && node ../src/copy.js",
     "clean_and_copy": "npm run clean && npm run copy",
     "test": "cd play && node ../bin/api-server",
     "ls": "ls -a vendor/node_modules/.bin",
+    "pub": "npm publish .",
     "test_ls": "npm run clean_and_copy && npm run ls"
   },
   "preferGlobal": "true",
   "bin": {
-		"apis": "bin/api-server",
-		"apise": "bin/api-server",
-		"apiser": "bin/api-server",
-		"apiser": "bin/api-server",
-		"apiserv": "bin/api-server",
-		"apiserve": "bin/api-server",
+    "apis": "bin/api-server",
+    "apise": "bin/api-server",
+    "apiser": "bin/api-server",
+    "apiserv": "bin/api-server",
+    "apiserve": "bin/api-server",
     "apiserver": "bin/api-server"
   },
   "repository": {
@@ -41,12 +41,14 @@
     "express": "~4.9.0",
     "gulp": "^3.8.10",
     "handlebars": "^2.0.0",
+    "install": "^0.1.8",
     "jade": "~1.6.0",
     "logge": "^1.1.0",
     "morgan": "~1.3.0",
     "node-require-directory": "^1.0.2",
     "request": "^2.51.0",
     "serve-favicon": "~2.1.3",
+    "shelljs": "^0.3.0",
     "supervisor": "^0.6.0",
     "tpl_apply": "^1.0.1"
   }
