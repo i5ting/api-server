@@ -31,26 +31,35 @@ function get_url(jsonObj){
 
 function res_to_api(jsonObj, api_md_file ,cb_succ, cb_fail) {	
 	var file_name = jsonObj.file_name.replace(/.req/, '');
-	var _url = jsonObj.url.replace(/http__\/\//,'')
+	// var _url = jsonObj.url.replace(/http__\/\//,'')
 	
-	console.dir(_url)
-	var aa = _url.split('/');
+	// console.dir(_url)
+	// var aa = _url.split('/');
+	//
+	// aa.shift();
+	// _url = aa.join('/')
+	// var url = '/' + _url;
+	//
 		
-	aa.shift();
-	_url = aa.join('/')
-	var url = '/' + _url;
-		
-		
-	jsonObj.absolute_url = url;
-	console.dir(jsonObj.type);
+	// jsonObj.absolute_url = url;
+	console.dir(' jsonObj = ' + jsonObj);
 	
 	source = require('./get_npm_installed_path')() + '/src/tpl/get.js'
 	
 	dest = server_routes_dir + '/' + file_name + '.js'
 	console.dir(source)
+	
+	console.dir(jsonObj.mocks);
  
 
-	tpl.tpl_apply(source, jsonObj, dest);
+	var Handlebars = require('handlebars');
+	
+	Handlebars.registerHelper('fullpath', function(mock) {
+		console.dir('mock---'+mock)
+	  return mock.base + mock.file;
+	});
+
+	tpl.tpl_apply_with_register_helper(Handlebars, source, jsonObj, dest);
 	
 	return Promise.resolve(jsonObj);
 }

@@ -72,7 +72,10 @@ function request_processing_with_file(req_file){
 		obj.file_name = req_file.split('/').pop();;
 		obj.file_path = req_file;
 		obj.pwd = process.cwd();
+		obj.file	= obj.file_name.replace(/.req/, '')
+		obj.request_folder_path = request_dir;
 		console.log(obj);
+		
 		return Promise.resolve(obj);
 		// return request.task(obj, requestCompleteCallback)
 	}).then(function(jsonObj){
@@ -103,6 +106,46 @@ function write_an_api(jsonObj) {
 		//     }
 		// });
 		// register_in_route_js(jsonObj);
+		
+		var res_mock_files = jsonObj.request_folder_path + '/' + jsonObj.file + '/'
+		
+		fs.exists(res_mock_files, function (exists) {
+			if(exists){
+				var readDir = fs.readdirSync(res_mock_files);
+				console.log('readDir=' + readDir);
+				var mocks = [];
+				
+				readDir.forEach(function(file){
+					function get_json(str){
+						// json 不支持属性里有冒号的情况
+						// 我其实想用yaml的，暂时先这样
+			
+			
+						var obj = JSON.parse(str);
+						// obj.url = decode_url(obj.url);
+						return JSON.parse(str);
+					}
+					var file_content = fs.readFileSync(res_mock_files + file,{encoding: 'utf-8'});
+					console.log('file_content' +file_content);
+					obj = get_json(file_content);
+					
+					console.log('fffffffffff='  + file)
+					var api_render_file_path = res_mock_files + file.replace(/amp/, '')
+
+					mocks.push({
+						type:jsonObj.type,
+						file:file,
+						base: res_mock_files,
+						file_content:obj,
+						api_render_file_path: api_render_file_path
+					});
+				});
+				
+				jsonObj.mocks = mocks;
+			}else{
+				console.warn(res_mock_files + ' is not exist');
+			}
+		});
 		
 		console.log(jsonObj)
 		
@@ -136,12 +179,12 @@ function register_in_route_js(){
 	var mappings = [];
 	
 	url_mappings.forEach(function(obj){
-		//
-		var _url = obj.url.replace(/http__\/\//,'')
 		
+		var _url = obj.url.replace(/http__\/\//,'')
+
 		 console.dir(_url)
 			var aa = _url.split('/');
-			
+
 			aa.shift();
 			_url = aa.join('/')
 			obj.url = '/' + _url;
@@ -181,7 +224,7 @@ function _parse_with_request_dir(path){
   // 子目录，暂不处理，现在是广度优先。
   dirList.forEach(function(item){
     if(fs.statSync(path + '/' + item).isDirectory()){
-      walk(path + '/' + item);
+      // _parse_with_request_dir(path + '/' + item);
     }
   });
 	
