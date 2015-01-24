@@ -4,12 +4,9 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
-
 	{{#each mocks}}
 	api_render(req, res, '{{type}}','{{{this.api_render_file_path}}}')
   {{/each}}
-	
 });
 
 function api_render(req, res, method, file_path){

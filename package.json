@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cd vendor && npm start",
+    "start": "cd play/server && npm start",
+		"startvendor": "cd vendor && npm start",
     "clean": "sudo rm -rf vendor/node_modules",
     "copy": "cd vendor && node ../src/copy.js",
     "clean_and_copy": "npm run clean && npm run copy",
