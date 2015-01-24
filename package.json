@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cd play/server && npm start",
+    "start": "npm test && cd play/server && npm start",
 		"startvendor": "cd vendor && npm start",
     "clean": "sudo rm -rf vendor/node_modules",
     "copy": "cd vendor && node ../src/copy.js",
@@ -15,7 +15,13 @@
   },
   "preferGlobal": "true",
   "bin": {
-    "apis": "bin/api-server"
+		"apis": "bin/api-server",
+		"apise": "bin/api-server",
+		"apiser": "bin/api-server",
+		"apiser": "bin/api-server",
+		"apiserv": "bin/api-server",
+		"apiserve": "bin/api-server",
+    "apiserver": "bin/api-server"
   },
   "repository": {
     "type": "git",

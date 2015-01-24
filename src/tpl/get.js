@@ -18,11 +18,19 @@ function api_render(req, res, method, file_path){
 	console.log(param_string + '= param_string')
 	
 	if(method == 'get'){
-		var file_content = fs.readFileSync(file_path + file,{encoding: 'utf-8'});
-		console.log('file_content' +file_content);
+		
+		req.param('name')
+		
+		console.log('file_path = ' + file_path)
+		var file_content = fs.readFileSync(file_path, {encoding: 'utf-8'});
+		console.log('file_content = ' +file_content);
 		json_obj = get_json(file_content);
 		res.json(json_obj);
 	}
+}
+
+function params_to_string(req){
+	
 }
 
 function get_json(str){

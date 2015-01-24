@@ -24,9 +24,9 @@ test
 - [x] 在当前目录，执行npm start，调用supervisor
 - [x] 使用`api .`测试
 
-## Request
+## Response Mocker Rules
 
-get
+get.request
 
 ```
 {
@@ -38,35 +38,43 @@ get
 }
 ```
 
-get/a=1&b=2.json
-get/a=1.json
-get/a1=1.json
+创建一个get命令，创建json作为返回文件
 
-post/a=1&b=2.json
-
-
-post
-
-```
-{
-	"name":"这是一个post2请求",
-	"url":"http://218.247.15.102/appfuse_emm_backend/v1/appschedule/list.json",
-	"type":"post",
-	"params":{
+- get/a=1&b=2.json
+	{
+	    "status": {
+	        "code": 0,
+	        "msg": ""
+	    },
+	    "data": {
+	        "id": 18,
+	        "versionId": "4565",
+	        "content": "67567567",
+	        "url": "https__//shiren1118.b0.upaiyun.com/AppCenter0627.plist",
+	        "createTime": "2014-09-22 11__14__30"
+	    }
 	}
-}
-```
+- get/a=1.json
+- get/c=1.json
+	{
+	    "status": {
+	        "code": 1,
+	        "msg": "参数没有c"
+	    },
+	    "data": {
+ 
+	    }
+	}
+	
 
-upload
+`a=1&b=2.json` 内容说明
 
-```
-{
-  "name": "这是一个upload请求",
-  "url": "http://127.0.0.1:3456/post/formdata.json",
-  "type": "upload",
-  "params": {
-    "names": "pic",
-    "filename": "da_qin_huang_ling_.mobi"
-  }
-}
-```
+- a=1&b=2 是参数，无聊get/post等参数都这样写
+- `a=1&b=2.json` 文件内容是该请求的返回json
+
+
+curl a=1&b=2  http://127.0.0.1:3333/appfuse_emm_backend/v1/appversions.json
+
+## TODOs
+
+- [ ] 生成测试的命令
