@@ -7,6 +7,13 @@ router.get('/', function(req, res) {
 	{{#each mocks}}
 	api_render(req, res, '{{type}}','{{{this.api_render_file_path}}}')
   {{/each}}
+	
+	res.json({
+		status:{
+			code	: '500',
+			msg		: 'api server无法解析改参数'
+		}
+	});
 });
 
 function api_render(req, res, method, file_path){
@@ -28,8 +35,7 @@ function api_render(req, res, method, file_path){
 }
 
 function json_render(req,res,file_path){
-	if(req.method.toLowerCase() == 'get'){
-		
+	if(req.method.toLowerCase() == 'get'){		
 		console.log('file_path = ' + file_path)
 		var file_content = fs.readFileSync(file_path, {encoding: 'utf-8'});
 		console.log('file_content = ' +file_content);
