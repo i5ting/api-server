@@ -17,20 +17,50 @@ function api_render(req, res, method, file_path){
 	
 	console.log(param_string + '= param_string')
 	
-	if(method == 'get'){
-		
-		req.param('name')
+		console.dir(req.query)
+	var a = params_to_string(req);
+	
+	console.dir(a)
+	if(a == param_string){
+		console.dir('sssssssssssssssssss');
+		json_render(req,res,file_path);
+	}
+}
+
+function json_render(req,res,file_path){
+	if(req.method.toLowerCase() == 'get'){
 		
 		console.log('file_path = ' + file_path)
 		var file_content = fs.readFileSync(file_path, {encoding: 'utf-8'});
 		console.log('file_content = ' +file_content);
 		json_obj = get_json(file_content);
-		res.json(json_obj);
+		return res.json(json_obj);
 	}
 }
 
 function params_to_string(req){
+	var cparams = [];
 	
+	console.dir('----------' + req.method)
+	if(req.method.toLowerCase() == 'get'){
+		
+		for(var i in req.query){
+			console.dir(i + ' --- ' +  req.query[i]);
+			cparams.push(i + '=' + req.query[i])
+		}
+		
+		return cparams.join('&');
+	}
+	
+	if(req.method.toLowerCase() == 'post'){
+		for(var i in req.body){
+			cparams.push(i + '=' + req.query[i])
+		}
+		
+		return cparams.join('&');
+	}
+	
+	return cparams.join('&');
 }
 
 function get_json(str){
