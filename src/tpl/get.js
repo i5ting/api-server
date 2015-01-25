@@ -2,8 +2,22 @@ var express = require('express');
 var fs = require('fs');
 var router = express.Router();
 
+function raw_body_parser(req, res, next) {
+  req.rawBody = '';
+  req.setEncoding('utf8');
+
+  req.on('data', function(chunk) {
+    req.rawBody += chunk;
+  });
+
+  req.on('end', function() {
+    next();
+  });
+}
+
+
 /* GET home page. */
-router.get('/', function(req, res) {
+router.{{{method}}}('/', function(req, res) {
 	{{#each mocks}}
 	api_render(req, res, '{{type}}','{{{this.api_render_file_path}}}')
   {{/each}}
@@ -23,10 +37,9 @@ function api_render(req, res, method, file_path){
 	param_string = path_arr.pop().replace(/.json/,'');
 	
 	console.log(param_string + '= param_string')
-	
-		console.dir(req.query)
+		
 	var a = params_to_string(req);
-	
+	console.log('req.param_string = ' + a) 
 	console.dir(a)
 	if(a == param_string){
 		console.dir('sssssssssssssssssss');
@@ -36,6 +49,14 @@ function api_render(req, res, method, file_path){
 
 function json_render(req,res,file_path){
 	if(req.method.toLowerCase() == 'get'){		
+		console.log('file_path = ' + file_path)
+		var file_content = fs.readFileSync(file_path, {encoding: 'utf-8'});
+		console.log('file_content = ' +file_content);
+		json_obj = get_json(file_content);
+		return res.json(json_obj);
+	}
+	
+	if(req.method.toLowerCase() == 'post'){				
 		console.log('file_path = ' + file_path)
 		var file_content = fs.readFileSync(file_path, {encoding: 'utf-8'});
 		console.log('file_content = ' +file_content);
@@ -59,8 +80,13 @@ function params_to_string(req){
 	}
 	
 	if(req.method.toLowerCase() == 'post'){
+		// for post raw
+		if(req.headers['content-type'].match(/text/) == 'text' ){
+			req.body = JSON.parse(req.body);
+		}
+		 
 		for(var i in req.body){
-			cparams.push(i + '=' + req.query[i])
+			cparams.push(i + '=' + req.body[i])
 		}
 		
 		return cparams.join('&');

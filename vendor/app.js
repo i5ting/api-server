@@ -10,6 +10,15 @@ var users = require('./routes/users');
 
 var app = express();
 
+var multer  = require('multer')
+
+app.use(multer({ 
+	dest: 'upload',
+  rename: function (fieldname, filename) {
+    return filename //.replace(/\W+/g, '-').toLowerCase() + Date.now()
+  }
+}))
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -18,6 +27,11 @@ app.set('view engine', 'jade');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
+// parse an HTML body into a string
+// app.use(bodyParser.text({ type: 'text/html' }))
+// for raw data
+app.use(bodyParser.text({ type: 'text/*' }))
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));

@@ -50,6 +50,7 @@
     "serve-favicon": "~2.1.3",
     "shelljs": "^0.3.0",
     "supervisor": "^0.6.0",
+		"multer": "^0.1.6",
     "tpl_apply": "^1.0.1"
   }
 }

@@ -50,6 +50,11 @@ function res_to_api(jsonObj, api_md_file ,cb_succ, cb_fail) {
 	console.dir(source)
 	
 	console.dir(jsonObj.mocks);
+	jsonObj.method = jsonObj.type;
+	
+	if(jsonObj.type == 'upload'){
+		jsonObj.method = 'post'
+	}
  
 
 	var Handlebars = require('handlebars');
