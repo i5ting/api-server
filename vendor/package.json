@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "scripts": {
-		 "start": "supervisor ./bin/www"
+		 "start": "./node_modules/.bin/supervisor ./bin/www"
   },
   "dependencies": {
 		"node-require-directory": "^1.0.2",
