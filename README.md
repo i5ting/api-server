@@ -79,7 +79,7 @@ curl a=1&b=2  http://127.0.0.1:3333/appfuse_emm_backend/v1/appversions.json
 
 - [x] Get is ok
 - [x] x-www-form-urlencoded is Ok
-- [ ] Post
+- [x] Post
 - [ ] Upload
 - [ ] node_modules
 - [ ] 生成测试的命令
